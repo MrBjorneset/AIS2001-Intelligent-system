@@ -1,54 +1,65 @@
 import random
+import matplotlib.pyplot as plt
 
 
-target_string = "EMIL_BJORNESET*566119"
-valid_characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789*"
+targetString = "EMIL_BJORNESET*566119"
+validCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789*"
 
-Population_Size = 100
-Mutation_Rate = 0.02
-Crossover_Rate = 0.8
-Max_Generations = 100000
+populationSize = 100
+mutationRate = 0.02
+crossoverRate = 0.8
+maxGenerations = 100000
 
 def generate_random_string(length):
-    return ''.join(random.choice(valid_characters) for _ in range(length))
+    return ''.join(random.choice(validCharacters) for _ in range(length))
 
 def calculate_fitness(candidate):
-    return sum(1 for a, b in zip(candidate, target_string) if a == b)
+    return sum(1 for a, b in zip(candidate, targetString) if a == b)
 
 def crossover(parent1, parent2):
-    crossover_point = random.randint(0, len(parent1) - 1)
-    child = parent1[:crossover_point] + parent2[crossover_point:]
+    crossoverPoint = random.randint(0, len(parent1) - 1)
+    child = parent1[:crossoverPoint] + parent2[crossoverPoint:]
     return child
 
-def mutate(child, mutation_rate):
-    mutated_child = ''.join(
-        c if random.random() > mutation_rate else random.choice(valid_characters)
+def mutate(child, mutationRate):
+    mutatedChild = ''.join(
+        c if random.random() > mutationRate else random.choice(validCharacters)
         for c in child
     )
-    return mutated_child
+    return mutatedChild
 
-def genetic_algorithm(target_string, population_size, mutation_rate, crossover_rate, max_generations):
-    population = [generate_random_string(len(target_string)) for _ in range(population_size)]
-    global fitness_scores
-    for generation in range(max_generations):
-        fitness_scores = [calculate_fitness(candidate) for candidate in population]
+def genetic_algorithm(targetString, populationSize, mutationRate, crossoverRate, maxGenerations):
+    population = [generate_random_string(len(targetString)) for _ in range(populationSize)]
+    bestFitnesses = []
+    global fitnesScores
+    for generation in range(maxGenerations):
+        fitnesScores = [calculate_fitness(candidate) for candidate in population]
 
-        if max(fitness_scores) == len(target_string):
-            print(f"Found solution in generation {generation}: {population[fitness_scores.index(max(fitness_scores))]}")
+        if max(fitnesScores) == len(targetString):
+            print(f"Found solution in generation {generation}: {population[fitnesScores.index(max(fitnesScores))]}")
             break
-        best_fit_index = fitness_scores.index(max(fitness_scores))
-        best_fit_candidate = population[best_fit_index]
-        print(f"Generation {generation}: Best Fit - {best_fit_candidate}, Fitness - {fitness_scores[best_fit_index]}")
+        bestFixIndex = fitnesScores.index(max(fitnesScores))
+        bestFitCandidate = population[bestFixIndex]
+        print(f"Generation {generation}: Best Fit - {bestFitCandidate}, Fitness - {fitnesScores[bestFixIndex]}")
 
-        parents = random.choices(population, weights=fitness_scores, k=2)
-        if random.random() < crossover_rate:
+        bestFitnesses.append(max(fitnesScores))
+        parents = random.choices(population, weights=fitnesScores, k=2)
+        if random.random() < crossoverRate:
             child = crossover(parents[0], parents[1])
-            child = mutate(child, mutation_rate)
-            min_fitness_index = fitness_scores.index(min(fitness_scores))
+            child = mutate(child, mutationRate)
+            min_fitness_index = fitnesScores.index(min(fitnesScores))
             population[min_fitness_index] = child
 
     else:
         print("Maximum generations reached. Solution not found.")
+    return bestFitnesses
 
+bestFitnesses = genetic_algorithm(targetString,populationSize, mutationRate, crossoverRate, maxGenerations)
 
-genetic_algorithm(target_string,Population_Size, Mutation_Rate, Crossover_Rate, Max_Generations)
+# Plot the best fitness values
+plt.plot(bestFitnesses)
+plt.title('Best Fitness Values Over Generations')
+plt.xlabel('Generation')
+plt.ylabel('Best Fitness')
+plt.grid(True)
+plt.show()
