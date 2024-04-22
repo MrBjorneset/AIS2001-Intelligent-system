@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 targetString = "EMIL_BJORNESET*566119"
 validCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789*"
 
-populationSize = 100
-mutationRate = 0.02
-crossoverRate = 0.8
+populationSize = 400
+mutationRate = 0.01
+crossoverRate = 1
 maxGenerations = 100000
 
 def generate_random_string(length):
