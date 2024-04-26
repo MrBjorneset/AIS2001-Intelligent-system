@@ -32,15 +32,6 @@ plt.xlabel('Solar Radiation (GHI)')
 plt.ylabel('Energy Production (Wh)')
 plt.show()
 
-# Visualize distribution of weather types per month
-plt.figure(figsize=(10,6))
-sns.histplot(x=data['month'], hue=data['weather_type'], palette='coolwarm')
-plt.title('Weather Type vs Month')
-plt.xlabel('Month')
-plt.xticks(rotation=90)
-plt.ylabel('Count')
-plt.show()
-
 # Boxplot of energy Production by weather type
 plt.figure(figsize=(10, 6))
 sns.boxplot(x='weather_type', y='Energy delta[Wh]', data=data)
@@ -50,9 +41,13 @@ plt.ylabel('Energy Production (Wh)')
 plt.xticks(rotation=45)
 plt.show()
 
+# Exclude the first column from the DataFrame
+data_without_first_column = data.iloc[:, 1:]
+
+# Correlation Matrix plot
 plt.figure(figsize=(10, 6))
-sns.heatmap(data.corr(), annot=True, fmt=".2f", cmap='coolwarm')
-plt.title("Correlation Matrix of Features")
+sns.heatmap(data_without_first_column.corr(), annot=True, fmt=".2f", cmap='coolwarm')
+plt.title("Correlation Matrix of Features (Excluding First Column)")
 plt.show()
 
 
