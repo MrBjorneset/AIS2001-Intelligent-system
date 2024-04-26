@@ -9,7 +9,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 
 # Read the dataset
-data = pd.read_csv('Part_E\data\solar_weather.csv')
+data = pd.read_csv('data\solar_weather.csv')
 
 
 # Display the summary statistics of the data
