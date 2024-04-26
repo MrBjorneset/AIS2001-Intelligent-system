@@ -5,7 +5,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
 # Load dataset from CSV file
-df = pd.read_csv('data\\solar_weather.csv')
+df = pd.read_csv('Part_E\\data\\solar_weather.csv')
 
 # Assuming the last column contains the target variable
 X = df.iloc[:, :-1]  # Features
