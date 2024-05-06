@@ -47,8 +47,6 @@ rmse = sqrt(mse);
 errors = y_pred - y_test;
 mean_errors = mean(errors);
 std_errors = std(errors);
-
-% Display mean and standard deviation
 fprintf('Mean of errors: %f\n', mean_errors);
 fprintf('Standard deviation of errors: %f\n', std_errors);
 
